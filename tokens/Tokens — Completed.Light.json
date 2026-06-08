@@ -44,9 +44,12 @@
         }
       }
     },
-    "text-primary": {
-      "$type": "color",
-      "$value": "#FF0000",
+    "text": {
+      "primary":{
+        "$type": "color",
+        "$value": "#FF0000",
+      }
+    },
       "$description": "",
       "$extensions": {
         "com.figma": {
