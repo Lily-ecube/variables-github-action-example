@@ -46,7 +46,7 @@
     },
     "text-primary": {
       "$type": "color",
-      "$value": "{color.gray.900}",
+      "$value": "#FF0000",
       "$description": "",
       "$extensions": {
         "com.figma": {
