@@ -1,31 +1,40 @@
-name: Sync tokens to Figma
+name: Sync Figma Variables
+
 on:
+  # 1. 깃허브에서 수동으로 버튼을 눌러 로봇을 깨울 수 있게 합니다.
   workflow_dispatch:
-    inputs:
-      file_key:
-        description: 'The file key of the Figma file to be updated'
-        required: true
 
 jobs:
-  sync-tokens-to-figma:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      # 2. 깃허브 저장소의 코드를 로봇 컴퓨터로 가져옵니다.
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      # 3. API 통신을 실행할 Node.js 환경을 세팅합니다.
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.16.0'
+          node-version: 20
 
-      - name: Set NPM version
-        run: npm install -g npm@9.5.1
-
-      - name: Clone repo
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
+      # 4. 필요한 도구들을 설치합니다.
+      - name: Install Dependencies
         run: npm install
 
-      - name: Sync tokens to Figma file
-        run: npm run sync-tokens-to-figma
+      # 5. 금고에 숨겨둔 비밀번호들을 꺼내어 Figma Variables REST API를 실행합니다.
+      - name: Run Figma Sync Script
         env:
-         PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           FILE_KEY: ${{ secrets.FILE_KEY }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run sync-tokens # 내 프로젝트 내부의 실행 스크립트 이름
+
+      # 6. API로 가져와서 새로 바뀐 색상 JSON 파일을 내 깃허브에 최종 반영(커밋)합니다.
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "style: figma variables 변동사항 API 반영"
+          git push
