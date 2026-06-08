@@ -12,9 +12,9 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "figma-export-variables": "^0.5.1"
+    "figma-export-variables": "0.5.1"
   },
   "devDependencies": {
-    "prettier": "^3.0.0"
+    "prettier": "3.0.0"
   }
 }
