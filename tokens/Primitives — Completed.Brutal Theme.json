@@ -387,7 +387,7 @@
       },
       "400": {
         "$type": "color",
-        "$value": "#b874ff",
+        "$value": "#222222",
         "$description": "",
         "$extensions": {
           "com.figma": {
@@ -401,7 +401,7 @@
       },
       "600": {
         "$type": "color",
-        "$value": "#bc7cff",
+        "$value": "#444444",
         "$description": "",
         "$extensions": {
           "com.figma": {
